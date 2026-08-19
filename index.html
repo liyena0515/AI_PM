@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM-RAG · 프로젝트 관리 플랫폼</title>
+<style>
+  :root{
+    --navy:#12224B; --blue:#0155FF; --orange:#FE5B01; --yellow:#FE9704;
+    --grad1:#003BA8; --grad3:#4893FD;
+    --tint-navy:#DDE5F7; --tint-blue:#CCDDFF; --tint-orange:#FFDECC;
+    --bg:#F7F8FA; --surface:#FFFFFF; --line:#EDEFF3; --line-strong:#E2E5EC;
+    --text-1:#12141C; --text-2:#5B6273; --text-3:#9AA0AF;
+    --r-md:14px; --r-lg:20px; --r-xl:26px; --r-pill:999px;
+    --shadow-sm:0 1px 2px rgba(15,23,42,.05);
+    --shadow-md:0 2px 10px rgba(15,23,42,.07), 0 1px 2px rgba(15,23,42,.04);
+    --shadow-lg:0 16px 40px rgba(15,23,42,.12);
+    --font: 'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font); color:var(--text-1); background:var(--bg);
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  b, strong{font-weight:700;}
+  a{color:inherit;}
+
+  header.hero{
+    background:linear-gradient(135deg, var(--navy) 0%, var(--grad1) 55%, var(--grad3) 130%);
+    color:#fff; padding:64px 24px 80px;
+  }
+  .wrap{max-width:960px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:12px; margin-bottom:40px;}
+  .brand-mark{width:30px; height:30px; position:relative; flex-shrink:0;}
+  .brand-mark span{position:absolute; width:15.5px; height:15.5px; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--grad3), #fff);}
+  .brand-mark span:nth-child(1){top:0; left:7px;}
+  .brand-mark span:nth-child(2){top:7px; left:14px;}
+  .brand-mark span:nth-child(3){top:14px; left:7px;}
+  .brand-mark span:nth-child(4){top:7px; left:0;}
+  .brand-name{font-weight:700; font-size:16px; letter-spacing:.2px;}
+  .brand-sub{font-size:11px; color:rgba(255,255,255,.55); letter-spacing:.4px;}
+
+  .eyebrow{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.14); color:#fff; font-weight:700; font-size:11.5px; padding:6px 14px; border-radius:var(--r-pill); margin-bottom:20px;}
+  h1{font-size:38px; letter-spacing:-0.8px; line-height:1.3; margin-bottom:16px;}
+  .lede{font-size:15.5px; color:rgba(255,255,255,.82); max-width:620px; margin-bottom:32px;}
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:13px 24px; border-radius:var(--r-pill); font-weight:700; font-size:14px; border:none; cursor:pointer; text-decoration:none; transition:opacity .15s, transform .15s;}
+  .btn:hover{opacity:.9; transform:translateY(-1px);}
+  .btn-primary{background:#fff; color:var(--navy);}
+  .btn-ghost{background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.35);}
+
+  main{max-width:960px; margin:-44px auto 0; padding:0 24px 80px;}
+
+  .card-row{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:56px;}
+  .card{background:var(--surface); border-radius:var(--r-lg); padding:24px; box-shadow:var(--shadow-md);}
+  .card .tag{display:inline-block; font-size:10.5px; font-weight:700; padding:4px 10px; border-radius:var(--r-pill); margin-bottom:14px;}
+  .tag-blue{background:var(--tint-blue); color:#0043D6;}
+  .tag-orange{background:var(--tint-orange); color:#C43E00;}
+  .tag-navy{background:var(--tint-navy); color:var(--navy);}
+  .card h3{font-size:16px; margin-bottom:8px;}
+  .card p{font-size:13px; color:var(--text-2); margin-bottom:16px;}
+  .card a.link{font-size:12.5px; font-weight:700; color:var(--blue); text-decoration:none;}
+  .card a.link:hover{text-decoration:underline;}
+
+  section{margin-bottom:56px;}
+  .section-title{font-size:20px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:9px;}
+  .section-title::before{content:""; width:8px; height:8px; border-radius:2px; background:var(--blue); flex-shrink:0;}
+  .section-desc{font-size:13.5px; color:var(--text-3); margin-bottom:24px; margin-left:17px;}
+
+  .grid-screens{display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+  .screen-item{display:flex; gap:14px; align-items:flex-start; background:var(--surface); border-radius:var(--r-md); padding:16px 18px; box-shadow:var(--shadow-sm);}
+  .screen-num{font-weight:700; font-size:12px; color:var(--blue); background:var(--tint-blue); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .screen-item h4{font-size:13.5px; margin-bottom:3px;}
+  .screen-item p{font-size:12px; color:var(--text-3);}
+
+  .stack-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .stack-chip{background:var(--surface); border:1px solid var(--line-strong); border-radius:var(--r-pill); padding:8px 16px; font-size:12.5px; font-weight:700; color:var(--text-2); box-shadow:var(--shadow-sm);}
+
+  .quickstart{background:var(--surface); border-radius:var(--r-xl); padding:32px; box-shadow:var(--shadow-md);}
+  .qs-item{display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--line);}
+  .qs-item:last-child{border-bottom:none;}
+  .qs-badge{width:26px; height:26px; border-radius:50%; background:var(--navy); color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .qs-item h4{font-size:14.5px; margin-bottom:5px;}
+  .qs-item p{font-size:13px; color:var(--text-2); margin-bottom:8px;}
+  code, .code{font-family:'SFMono-Regular',Consolas,Menlo,monospace; font-size:12.5px; background:var(--bg); border:1px solid var(--line-strong); border-radius:8px; padding:10px 14px; display:block; color:var(--text-1); overflow-x:auto; white-space:pre;}
+
+  .limit-list{background:var(--surface); border-radius:var(--r-lg); padding:26px 28px; box-shadow:var(--shadow-sm);}
+  .limit-list li{font-size:13px; color:var(--text-2); margin-bottom:10px; padding-left:18px; position:relative;}
+  .limit-list li::before{content:"·"; position:absolute; left:0; color:var(--orange); font-weight:700;}
+  .limit-list li:last-child{margin-bottom:0;}
+
+  footer{border-top:1px solid var(--line); padding:24px; text-align:center; font-size:11.5px; color:var(--text-3);}
+
+  @media (max-width:760px){
+    .card-row{grid-template-columns:1fr;}
+    .grid-screens{grid-template-columns:1fr;}
+    h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark"><span></span><span></span><span></span><span></span></div>
+      <div>
+        <div class="brand-name">PM&#8209;RAG</div>
+        <div class="brand-sub">KICA Internal &middot; Project Brain</div>
+      </div>
+    </div>
+    <span class="eyebrow">KICA AX 워크숍 2일차 산출물</span>
+    <h1>RAG 기반 프로젝트 관리 플랫폼,<br>PM&#8209;RAG</h1>
+    <p class="lede">
+      PRD &rarr; 목업(PNG 10종) &rarr; 클릭 프로토타입을 거쳐 실제로 동작하는 MVP까지 완성한 프로젝트 관리 도구입니다.
+      진척률·이슈·산출물·회의록 데이터를 검색해 근거 기반으로 답하고, 회의록을 자동 요약합니다.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="./PM-RAG_standalone.html">지금 데모 열어보기 &rarr;</a>
+      <a class="btn btn-ghost" href="./pm_rag_mvp/mvp/frontend/README.md">전체 MVP 문서 보기</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="card-row">
+    <div class="card">
+      <span class="tag tag-blue">설치 불필요</span>
+      <h3>스탠드얼론 데모</h3>
+      <p>폰트·데이터가 모두 내장된 단일 HTML 파일. 더블클릭 한 번으로 10개 화면을 바로 둘러볼 수 있습니다.</p>
+      <a class="link" href="./PM-RAG_standalone.html">PM-RAG_standalone.html 열기 &rarr;</a>
+    </div>
+    <div class="card">
+      <span class="tag tag-orange">실제 DB + RAG</span>
+      <h3>전체 MVP 소스</h3>
+      <p>SQLite + TF-IDF 검색 + Claude API 연동이 포함된 백엔드/프런트엔드 전체 소스입니다.</p>
+      <a class="link" href="./pm_rag_mvp/mvp">pm_rag_mvp/mvp 폴더 보기 &rarr;</a>
+    </div>
+    <div class="card">
+      <span class="tag tag-navy">문서</span>
+      <h3>프로젝트 README</h3>
+      <p>실행 방법, 아키텍처, API 명세, 알려진 제한사항까지 정리된 전체 문서입니다.</p>
+      <a class="link" href="./README.md">README.md 읽기 &rarr;</a>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-title">빠르게 실행하기</div>
+    <div class="section-desc">두 가지 방법으로 실행할 수 있습니다.</div>
+    <div class="quickstart">
+      <div class="qs-item">
+        <div class="qs-badge">A</div>
+        <div>
+          <h4>스탠드얼론 데모 (설치 없이 바로 확인)</h4>
+          <p>PowerShell에서 <code style="display:inline;padding:2px 6px;">serve_localhost.ps1</code>을 실행하면 <b>http://localhost:8787</b>이 자동으로 열립니다.</p>
+          <div class="code">./serve_localhost.ps1</div>
+        </div>
+      </div>
+      <div class="qs-item">
+        <div class="qs-badge">B</div>
+        <div>
+          <h4>전체 MVP (실제 DB + RAG 검색 + Claude 연동)</h4>
+          <p>백엔드를 직접 실행합니다. <code style="display:inline;padding:2px 6px;">ANTHROPIC_API_KEY</code>를 설정하면 Claude가 실제 자연어 답변을 생성합니다.</p>
+          <div class="code">cd pm_rag_mvp/mvp/backend
+pip install -r requirements.txt
+python3 server.py</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">화면 구성 (10개)</div>
+    <div class="section-desc">사이드바 메뉴 기준 코드 순서입니다.</div>
+    <div class="grid-screens">
+      <div class="screen-item"><div class="screen-num">00</div><div><h4>메인 대시보드</h4><p>종합 진척률, 지연/이슈/승인율 요약, 조직별 현황</p></div></div>
+      <div class="screen-item"><div class="screen-num">01</div><div><h4>진척률 관리</h4><p>WBS 태스크별 계획 대비 실적, 지연 자동 판정</p></div></div>
+      <div class="screen-item"><div class="screen-num">02</div><div><h4>질의응답</h4><p>RAG 기반 자연어 질의, 출처 문서 표시</p></div></div>
+      <div class="screen-item"><div class="screen-num">03</div><div><h4>이슈 로그</h4><p>이슈 등록/상태 변경, 영향도·긴급도 하이라이트</p></div></div>
+      <div class="screen-item"><div class="screen-num">04</div><div><h4>회의록 자동요약</h4><p>회의 메모 &rarr; AI 초안 생성 &rarr; 확정·배포</p></div></div>
+      <div class="screen-item"><div class="screen-num">05</div><div><h4>액션아이템</h4><p>담당 조직·기한 기준 칸반 보드</p></div></div>
+      <div class="screen-item"><div class="screen-num">06</div><div><h4>산출물 관리</h4><p>문서 유형·담당 조직·승인 상태 관리</p></div></div>
+      <div class="screen-item"><div class="screen-num">07</div><div><h4>주간 리포트</h4><p>진척률·지연·이슈·산출물 분포 자동 집계</p></div></div>
+      <div class="screen-item"><div class="screen-num">08</div><div><h4>알림센터</h4><p>지연/긴급/정보 알림 필터링</p></div></div>
+      <div class="screen-item"><div class="screen-num">09</div><div><h4>관리자 설정</h4><p>지연 임계값, 조직별 권한, 알림 채널</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">기술 스택</div>
+    <div class="section-desc">프레임워크 의존성 없이 표준 라이브러리 중심으로 구현했습니다.</div>
+    <div class="stack-list">
+      <span class="stack-chip">Vanilla HTML/CSS/JS</span>
+      <span class="stack-chip">Python http.server</span>
+      <span class="stack-chip">SQLite</span>
+      <span class="stack-chip">scikit-learn TF-IDF</span>
+      <span class="stack-chip">Anthropic Messages API</span>
+      <span class="stack-chip">Daki Font (임베드)</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">알려진 제한사항</div>
+    <div class="section-desc">MVP 단계의 의도된 한계입니다. 자세한 내용은 README를 참고하세요.</div>
+    <ul class="limit-list">
+      <li>인증/권한 미구현 (단일 사용자 가정)</li>
+      <li>데이터 소스 연동은 SQLite 레코드 수 표시 수준의 시뮬레이션</li>
+      <li>검색은 TF-IDF 기반이며 dense 임베딩은 아님</li>
+      <li>SQLite + 단일 프로세스 구조라 다수 동시 쓰기 환경에는 부적합</li>
+      <li>PDF 다운로드 등 일부 버튼은 프로토타입 수준의 자리표시자</li>
+    </ul>
+  </section>
+</main>
+
+<footer>&copy; 2026 KICA Inc. All rights reserved. (Internal Use Only) &middot; PM&#8209;RAG</footer>
+
+</body>
+</html>
