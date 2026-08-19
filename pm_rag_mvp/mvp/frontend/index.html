@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM-RAG · 프로젝트 관리 플랫폼</title>
+<link rel="stylesheet" href="/fonts_embed.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div id="proto-strip" class="proto-strip">연결 확인 중…</div>
+<div class="app">
+  <div class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><span></span><span></span><span></span><span></span></div>
+      <div class="brand-name">PM&#8209;RAG</div>
+      <div class="brand-sub">KICA Internal &middot; Project Brain</div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="sidebar-foot">
+      <div class="status-dot" id="status-dot">연결 확인 중&hellip;</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb">PM&#8209;RAG &nbsp;/&nbsp; <b id="crumb-current">메인 대시보드</b></div>
+      <div class="topbar-right">
+        <div class="searchbox"><span>&#128269;</span> 통합 검색 (Ctrl+K)</div>
+        <button class="bell" id="bell-btn" data-goto="08"><span class="badge" id="bell-badge">0</span></button>
+        <div class="avatar">PM</div>
+      </div>
+    </div>
+    <div class="page-header">
+      <span class="eyebrow" id="banner-eyebrow">MAIN DASHBOARD</span>
+      <h1 id="banner-title">메인 대시보드</h1>
+      <div class="desc" id="banner-desc"></div>
+    </div>
+    <div class="content" id="content"><div class="empty-state">불러오는 중…</div></div>
+    <div class="footer">
+      <span>&copy; 2026 KICA Inc. All rights reserved. (Internal Use Only)</span>
+      <span>PM&#8209;RAG &middot; <span id="footer-pagename">메인 대시보드</span></span>
+      <span class="logo">&#10022; <b>KICA</b></span>
+    </div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<div id="modal-root"></div>
+<script src="/app.js"></script>
+</body>
+</html>
